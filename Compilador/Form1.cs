@@ -26,7 +26,7 @@ namespace Compilador
                 textBoxRuta.Text = archivo.FileName;
                 string[] direccion = archivo.FileName.Split('\\');
 
-                File.Copy(archivo.FileName, direccion[direccion.Length - 1], true);
+                System.IO.File.Copy(archivo.FileName, direccion[direccion.Length - 1], true);
                 MessageBox.Show("Archivo creado correctamente");
 
                 using (StreamReader reader = new StreamReader(archivo.FileName))
@@ -42,6 +42,7 @@ namespace Compilador
                     texto = cadenaConcatenada.ToString().Split('\r'); //Retornar carro
                     int contadorLineas = 1;
                     Entrada entrada = Entrada.obtenerInstancia();
+                    entrada.Tipo = "Archivo";
                     StringBuilder lineaInicial = new StringBuilder();
                     foreach (var linea in texto)
                     {
@@ -50,7 +51,6 @@ namespace Compilador
                         lineaInicial.Append(contadorLineas + "->" + nuevaLinea.Contenido + Environment.NewLine);
                         contadorLineas++;
                     }
-
                     registroCarga.Text = lineaInicial.ToString();
                 }
             }
@@ -58,14 +58,52 @@ namespace Compilador
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxRuta.Visible = false;
-            cargarArchivo.Visible = false;
+            consola.Visible = true;
+            file.Visible = false;
+            registroCarga.Clear();
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxRuta.Visible = true;
-            cargarArchivo.Visible = true;
+            file.Visible = true;
+            consola.Visible = false;
+            registroCarga.Clear();
+            
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void registroCarga_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+        }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            string[] texto = console.Text.Split('\n'); //Salto de linea
+            int contadorLineas = 1;
+            Entrada entrada = Entrada.obtenerInstancia();
+            entrada.Tipo = "Consola";
+            StringBuilder lineaInicial = new StringBuilder();
+            foreach (var linea in texto)
+            {
+                Linea nuevaLinea = new Linea(contadorLineas, linea);
+                entrada.agregarLinea(nuevaLinea);
+                lineaInicial.Append(contadorLineas + "-> "  + nuevaLinea.Contenido + Environment.NewLine);
+                contadorLineas++;
+            }
+            registroCarga.Text = lineaInicial.ToString();
+
+
         }
     }
 }

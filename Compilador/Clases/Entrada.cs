@@ -7,6 +7,8 @@ namespace Compilador.Clases
     {
         private readonly static Entrada Instancia = new Entrada();
         private readonly List<Linea> Lineas = new List<Linea>();
+        public string Tipo;
+
 
         private Entrada()
         {
