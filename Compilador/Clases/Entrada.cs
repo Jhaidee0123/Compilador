@@ -1,45 +1,63 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Compilador.Clases
 {
-    public class Entrada
+    public static class Entrada
     {
-        private readonly static Entrada Instancia = new Entrada();
-        private readonly List<Linea> Lineas = new List<Linea>();
-        public string Tipo;
+        private readonly static List<Linea> Lineas = new List<Linea>();
+        public static string Tipo { get; set; }
 
-
-        private Entrada()
+        public static void AgregarLinea(string contenido)
         {
-        }
-
-        public static Entrada obtenerInstancia()
-        {
-            return Instancia;
-        }
-
-        public void agregarLinea(Linea linea)
-        {
-            if (linea != null)
+            if (contenido != null)
             {
+                Linea linea = new Linea
+                {
+                    Contenido = contenido
+                };
+
+                if (Lineas.Count == 0)
+                {
+
+                    linea.Numero = 1;
+
+                }
+                else
+                {
+                    linea.Numero = Lineas.Count + 1;
+                }
+
                 Lineas.Add(linea);
             }
         }
 
-        public Linea obtenerLinea(int numero) 
+        public static Linea ObtenerLinea(int numero) 
         {
-            return Lineas.FirstOrDefault(linea => linea.Numero == numero);
+            Linea lineaRetorno;
+
+            if (ExisteLinea(numero))
+            {
+                lineaRetorno = Lineas[numero - 1];
+
+            }
+            else
+            {
+                lineaRetorno = new Linea();
+                lineaRetorno.Contenido = "@EOF@";
+                lineaRetorno.Numero = Lineas.Count + 1;
+            }
+
+            return lineaRetorno;
         }
 
-        public List<Linea> obtenerLineas()
+        public static void LimpiarLineas()
         {
-            return Lineas;
+            Lineas.Clear();
         }
 
-        public void reiniciarEntrada()
+        public static bool ExisteLinea(int numero)
         {
-            throw new System.NotImplementedException();
+            return Lineas.Count <= numero && numero > 0;
         }
     }
 }

@@ -41,14 +41,12 @@ namespace Compilador
 
                     texto = cadenaConcatenada.ToString().Split('\r'); //Retornar carro
                     int contadorLineas = 1;
-                    Entrada entrada = Entrada.obtenerInstancia();
-                    entrada.Tipo = "Archivo";
+                    Entrada.Tipo = "Archivo";
                     StringBuilder lineaInicial = new StringBuilder();
                     foreach (var linea in texto)
                     {
-                        Linea nuevaLinea = new Linea(contadorLineas, linea);
-                        entrada.agregarLinea(nuevaLinea);
-                        lineaInicial.Append(contadorLineas + "->" + nuevaLinea.Contenido + Environment.NewLine);
+                        Entrada.AgregarLinea(linea);
+                        lineaInicial.Append(contadorLineas + "->" + linea + Environment.NewLine);
                         contadorLineas++;
                     }
                     registroCarga.Text = lineaInicial.ToString();
@@ -91,14 +89,12 @@ namespace Compilador
         {
             string[] texto = console.Text.Split('\n'); //Salto de linea
             int contadorLineas = 1;
-            Entrada entrada = Entrada.obtenerInstancia();
-            entrada.Tipo = "Consola";
+            Entrada.Tipo = "Consola";
             StringBuilder lineaInicial = new StringBuilder();
             foreach (var linea in texto)
             {
-                Linea nuevaLinea = new Linea(contadorLineas, linea);
-                entrada.agregarLinea(nuevaLinea);
-                lineaInicial.Append(contadorLineas + "-> "  + nuevaLinea.Contenido + Environment.NewLine);
+                Entrada.AgregarLinea(linea);
+                lineaInicial.Append(contadorLineas + "->" + linea + Environment.NewLine);
                 contadorLineas++;
             }
             registroCarga.Text = lineaInicial.ToString();
