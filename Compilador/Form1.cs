@@ -1,4 +1,5 @@
 ﻿using Compilador.Clases;
+using Compilador.Transversal;
 using System;
 using System.IO;
 using System.Text;
@@ -8,6 +9,10 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
+        //
+
+
+
         public Form1()
         {
             InitializeComponent();
@@ -100,6 +105,23 @@ namespace Compilador
             registroCarga.Text = lineaInicial.ToString();
 
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AnalizadorLexico anaLex = new AnalizadorLexico();
+            ComponenteLexico componente = anaLex.Analizar();
+
+            /*while(!componente.Lexema.Equals("@EOF@"))
+            {
+                MessageBox.Show(componente.ToString());
+            }*/
+
+
+
+
+            //tabla de simbolos, dummys, 
+            var tablaSimbolos = TablaSimbolos.TablaSimbolos.ObtenerTodosLosSimbolos();
         }
     }
 }

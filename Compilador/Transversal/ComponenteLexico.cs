@@ -22,7 +22,7 @@ namespace Compilador.Transversal
             retorno.Append("Posicion Inicial: " + PosicionInicial + "\n");
             retorno.Append("Poscicion Final: " + PosicionFinal + "\n");
 
-            return base.ToString();
+            return retorno.ToString();
         }
     }
 }

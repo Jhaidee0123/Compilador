@@ -3,8 +3,9 @@ using Compilador.ManejadorErrores;
 using Compilador.TablaSimbolos;
 using Compilador.Transversal;
 using System;
+using System.Windows.Forms;
 
-namespace Compilador.AnalizadorLexico
+namespace Compilador
 {
     public class AnalizadorLexico
     {
@@ -17,7 +18,7 @@ namespace Compilador.AnalizadorLexico
 
         public AnalizadorLexico()
         {
-            NumeroLineaActual = 0;
+            CargarNuevaLinea();
         }
 
         private void CargarNuevaLinea()
@@ -47,10 +48,11 @@ namespace Compilador.AnalizadorLexico
             else if (Puntero > lineaActual.Contenido.Length)
             {
                 CaracterActual = "@FL@";
+                Puntero++;
             }
             else
             {
-                CaracterActual = lineaActual.Contenido.Substring(Puntero, 1);
+                CaracterActual = lineaActual.Contenido.Substring(Puntero -1, 1);
                 Puntero++;
             }
         }
@@ -93,14 +95,13 @@ namespace Compilador.AnalizadorLexico
 
         public ComponenteLexico Analizar()
         {
-
             ComponenteLexico componenteLexico = new ComponenteLexico();
             limpiarLexema();
             int estadoActual = 0;
             bool continuarAnalisis = true;
             while (continuarAnalisis)
             {
-
+                
                 if (estadoActual == 0)
                 {
                     LeerSiguienteCaracter();
@@ -146,7 +147,7 @@ namespace Compilador.AnalizadorLexico
                         estadoActual = 11;
                         concatenarLexema();
                     }
-                    else if (CaracterActual.Equals("@EOF"))
+                    else if (CaracterActual.Equals("@EOF@"))
                     {
                         estadoActual = 12;
                         concatenarLexema();
@@ -372,14 +373,22 @@ namespace Compilador.AnalizadorLexico
                 }
                 else if (estadoActual == 16)
                 {
-                    continuarAnalisis = false;
+                    continuarAnalisis = true;
+                    
                     DevolverPuntero();
+                  
                     componenteLexico = new ComponenteLexico();
                     componenteLexico.Categoria = Categoria.IDENTIFICADOR;
                     componenteLexico.Lexema = lexema;
                     componenteLexico.NumeroLinea = NumeroLineaActual;
                     componenteLexico.PosicionInicial = Puntero - lexema.Length;
-                    componenteLexico.PosicionInicial = Puntero - 1;
+                    componenteLexico.PosicionFinal = Puntero - 1;
+                    estadoActual = 0;
+                    MensajeRetorno(componenteLexico);
+
+                    TablaMaestra.SincronizarSimbolo(componenteLexico);
+                    limpiarLexema();
+                    
                 }
                 //estado de error
                 else if (estadoActual == 17)
@@ -533,13 +542,17 @@ namespace Compilador.AnalizadorLexico
                 }
                 else if (estadoActual == 28)
                 {
-                    continuarAnalisis = false;
+                    continuarAnalisis = true;
                     componenteLexico = new ComponenteLexico();
                     componenteLexico.Categoria = Categoria.ASIGNACION;
                     componenteLexico.Lexema = lexema;
                     componenteLexico.NumeroLinea = NumeroLineaActual;
                     componenteLexico.PosicionInicial = Puntero - lexema.Length;
                     componenteLexico.PosicionInicial = Puntero - 1;
+                    TablaMaestra.SincronizarSimbolo(componenteLexico);
+                    MensajeRetorno(componenteLexico);
+                    limpiarLexema();
+                    estadoActual = 0;
                 }
                 //estado de error
                 else if (estadoActual == 29)
@@ -649,6 +662,11 @@ namespace Compilador.AnalizadorLexico
             }
 
             return componenteLexico;
+        }
+
+        private void MensajeRetorno(ComponenteLexico componente)
+        {
+            MessageBox.Show(componente.ToString());
         }
     }
 }

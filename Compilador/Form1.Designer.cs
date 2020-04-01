@@ -42,6 +42,7 @@
             this.btnCargar = new System.Windows.Forms.Button();
             this.consola = new System.Windows.Forms.Panel();
             this.file = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.consola.SuspendLayout();
             this.file.SuspendLayout();
             this.SuspendLayout();
@@ -165,14 +166,25 @@
             this.file.Controls.Add(this.cargarArchivo);
             this.file.Location = new System.Drawing.Point(40, 88);
             this.file.Name = "file";
-            this.file.Size = new System.Drawing.Size(311, 122);
+            this.file.Size = new System.Drawing.Size(311, 116);
             this.file.TabIndex = 12;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(37, 398);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 438);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.file);
             this.Controls.Add(this.consola);
             this.Controls.Add(this.label2);
@@ -208,6 +220,7 @@
         private System.Windows.Forms.Button btnCargar;
         private System.Windows.Forms.Panel consola;
         private System.Windows.Forms.Panel file;
+        private System.Windows.Forms.Button button1;
     }
 }
 

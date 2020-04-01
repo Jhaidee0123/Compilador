@@ -57,7 +57,7 @@ namespace Compilador.Clases
 
         public static bool ExisteLinea(int numero)
         {
-            return Lineas.Count <= numero && numero > 0;
+            return Lineas.Count >= numero && numero > 0;
         }
     }
 }

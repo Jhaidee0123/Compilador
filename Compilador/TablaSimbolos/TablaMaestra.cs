@@ -11,10 +11,10 @@ namespace Compilador.TablaSimbolos
                 switch (componente.Tipo)
                 {
                     case TipoComponente.DUMMY:
-                        TablaSimbolos.Agregar(componente);
+                        TablaDummys.Agregar(componente);
                         break;
                     case TipoComponente.SIMBOLO:
-                        TablaDummys.Agregar(componente);
+                        TablaSimbolos.Agregar(componente);
                         break;
                 }
             }
