@@ -16,7 +16,11 @@ namespace Compilador
         public Form1()
         {
             InitializeComponent();
-            textBoxRuta.Enabled = false;
+            textBoxRuta.Enabled = false;       
+            
+            
+
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -77,7 +81,7 @@ namespace Compilador
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            consola.Visible = false;
         }
 
         private void registroCarga_TextChanged(object sender, EventArgs e)
@@ -109,19 +113,86 @@ namespace Compilador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AnalizadorLexico anaLex = new AnalizadorLexico();
-            ComponenteLexico componente = anaLex.Analizar();
-
-            /*while(!componente.Lexema.Equals("@EOF@"))
+            try
             {
-                MessageBox.Show(componente.ToString());
-            }*/
+                AnalizadorLexico anaLex = new AnalizadorLexico();
+                anaLex.Analizar();
 
+                CrearPestañaDeComponentes();
+                CrearPestañaDeErrores();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+        }
 
+        private void Tabla_Componentes_Click(object sender, EventArgs e)
+        {
+            
+        }
 
+        private void Tabla_Errores_Click(object sender, EventArgs e)
+        {
 
-            //tabla de simbolos, dummys, 
-            var tablaSimbolos = TablaSimbolos.TablaSimbolos.ObtenerTodosLosSimbolos();
+        }
+
+        private void CrearPestañaDeComponentes()
+        {
+            TabPage newPage = new TabPage("Tabla_componentes");
+            tabControl1.TabPages.Add(newPage);
+            DataGrid dataGridSimbolos = new DataGrid()
+            {
+                DataSource = TablaSimbolos.TablaSimbolos.ObtenerTodosLosSimbolos(),
+                Location = new System.Drawing.Point(16, 58),
+                Width = 665,
+                Height = 145,
+                PreferredColumnWidth = 104
+            };
+            DataGrid dataGridDummys = new DataGrid()
+            {
+                DataSource = TablaSimbolos.TablaDummys.ObtenerTodosLosSimbolos(),
+                Location = new System.Drawing.Point(16, 255),
+                Width = 665,
+                Height = 151,
+                PreferredColumnWidth = 104
+            };
+            Label tablaSimbolos = new Label()
+            {
+                Text = "Tabla de simbolos",
+                Location = new System.Drawing.Point(13, 33)
+            };
+            Label tablaDummys = new Label()
+            {
+                Text = "Tabla de dummys",
+                Location = new System.Drawing.Point(13, 219)
+            };
+            newPage.Controls.Add(tablaSimbolos);
+            newPage.Controls.Add(dataGridSimbolos);
+            newPage.Controls.Add(tablaDummys);
+            newPage.Controls.Add(dataGridDummys);
+        }
+
+        private void CrearPestañaDeErrores()
+        {
+            TabPage newPage = new TabPage("Tabla_errores");
+            tabControl1.TabPages.Add(newPage);
+            DataGrid dataGridErrores= new DataGrid()
+            {
+                DataSource = ManejadorErrores.GestorErrores.ObtenerTodosErrores(),
+                Location = new System.Drawing.Point(16, 78),
+                Width = 656,
+                Height = 150,
+                PreferredColumnWidth = 104
+            };
+            Label tablaErrores = new Label()
+            {
+                Text = "Tabla de errores",
+                Location = new System.Drawing.Point(13, 33)
+            };
+            newPage.Controls.Add(tablaErrores);
+            newPage.Controls.Add(dataGridErrores);
         }
     }
 }
